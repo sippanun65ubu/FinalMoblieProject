@@ -1,30 +1,27 @@
-import 'package:intl/intl.dart';
+import 'package:pocketbase/pocketbase.dart';
 
-class NoteModel {
+class Note {
   final String id;
   final String title;
   final String content;
-  final String userId;
+  final String color;
   final DateTime created;
-  final DateTime updated;
 
-  NoteModel({
+  Note({
     required this.id,
     required this.title,
     required this.content,
-    required this.userId,
+    required this.color,
     required this.created,
-    required this.updated,
   });
 
-  factory NoteModel.fromRecord(Map<String, dynamic> record) {
-    return NoteModel(
-      id: record['id'] ?? '',
-      title: record['title'] ?? '',
-      content: record['content'] ?? '',
-      userId: record['user'] ?? '',
-      created: DateTime.parse(record['created']),
-      updated: DateTime.parse(record['updated']),
+  factory Note.fromRecord(RecordModel record) {
+    return Note(
+      id: record.id,
+      title: record.data['title'] ?? '',
+      content: record.data['content'] ?? '',
+      color: record.data['color'] ?? '#FFFFFF',
+      created: DateTime.parse(record.created),
     );
   }
 
@@ -32,10 +29,7 @@ class NoteModel {
     return {
       'title': title,
       'content': content,
-      'user': userId,
+      'color': color,
     };
   }
-
-  String get formattedDate =>
-      DateFormat('dd MMM yyyy, HH:mm').format(created);
 }
